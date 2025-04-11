@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
@@ -11,8 +11,30 @@ import {
   CheckCircle2,
   Calendar 
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import InterviewTypeDialog from "./interview/InterviewTypeDialog";
 
 const BookInterview: React.FC = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [interviewTypeDialogOpen, setInterviewTypeDialogOpen] = useState(false);
+  const [selectedType, setSelectedType] = useState<"one-way" | "live" | null>(null);
+
+  const handleInterviewTypeSelect = (type: "one-way" | "live") => {
+    setSelectedType(type);
+    setInterviewTypeDialogOpen(true);
+  };
+
+  const handleTopicSelect = (topic: string) => {
+    toast({
+      title: "Topic Selected",
+      description: `You selected ${topic} as your interview topic.`,
+    });
+    setSelectedType("one-way");
+    setInterviewTypeDialogOpen(true);
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -48,7 +70,7 @@ const BookInterview: React.FC = () => {
                 <span className="text-sm">Practice at your own convenience</span>
               </li>
             </ul>
-            <Button className="w-full">
+            <Button className="w-full" onClick={() => handleInterviewTypeSelect("one-way")}>
               <span>Select One-Way</span>
               <ChevronRight className="h-4 w-4 ml-2" />
             </Button>
@@ -78,7 +100,7 @@ const BookInterview: React.FC = () => {
                 <span className="text-sm">Immediate verbal and written feedback</span>
               </li>
             </ul>
-            <Button className="w-full" variant="outline">
+            <Button className="w-full" variant="outline" onClick={() => handleInterviewTypeSelect("live")}>
               <span>Select Live Interview</span>
               <ChevronRight className="h-4 w-4 ml-2" />
             </Button>
@@ -94,7 +116,8 @@ const BookInterview: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <Card className="bg-white hover:bg-gray-50 transition-colors cursor-pointer">
+            <Card className="bg-white hover:bg-gray-50 transition-colors cursor-pointer" 
+              onClick={() => handleTopicSelect("Software Engineering")}>
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
                   <Cpu className="h-5 w-5 text-iqblue" />
@@ -106,7 +129,8 @@ const BookInterview: React.FC = () => {
               </CardContent>
             </Card>
             
-            <Card className="bg-white hover:bg-gray-50 transition-colors cursor-pointer">
+            <Card className="bg-white hover:bg-gray-50 transition-colors cursor-pointer"
+              onClick={() => handleTopicSelect("Product Management")}>
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
                   <Users className="h-5 w-5 text-green-600" />
@@ -118,7 +142,8 @@ const BookInterview: React.FC = () => {
               </CardContent>
             </Card>
             
-            <Card className="bg-white hover:bg-gray-50 transition-colors cursor-pointer">
+            <Card className="bg-white hover:bg-gray-50 transition-colors cursor-pointer"
+              onClick={() => handleTopicSelect("Behavioral")}>
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">
                   <Clock className="h-5 w-5 text-purple-600" />
@@ -151,6 +176,13 @@ const BookInterview: React.FC = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Interview Type Dialog */}
+      <InterviewTypeDialog 
+        open={interviewTypeDialogOpen} 
+        onOpenChange={setInterviewTypeDialogOpen}
+        selectedType={selectedType}
+      />
     </div>
   );
 };
