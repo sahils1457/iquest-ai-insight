@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarPlus, ChevronRight, Award, Target, Lightbulb } from "lucide-react";
+import { CalendarPlus, ChevronRight, Award, Target, Lightbulb, Calendar, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const CandidateHome: React.FC = () => {
