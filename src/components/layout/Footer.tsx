@@ -9,7 +9,10 @@ import {
   Mail, 
   Phone, 
   MapPin, 
-  Clock 
+  Clock,
+  LayoutDashboard,
+  Users,
+  User
 } from 'lucide-react';
 
 const Footer = () => {
@@ -64,21 +67,27 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Legal */}
+          {/* Dashboards */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Legal</h3>
+            <h3 className="text-lg font-semibold mb-4">User Dashboards</h3>
             <ul className="space-y-2">
+              <li className="flex items-center">
+                <User className="h-4 w-4 mr-2 text-iqblue" />
+                <Link to="/dashboard/candidate" className="text-gray-300 hover:text-iqblue transition-colors">Candidate Dashboard</Link>
+              </li>
+              <li className="flex items-center">
+                <Users className="h-4 w-4 mr-2 text-iqblue" />
+                <Link to="/dashboard/corporate" className="text-gray-300 hover:text-iqblue transition-colors">Corporate Dashboard</Link>
+              </li>
+              <li className="flex items-center">
+                <LayoutDashboard className="h-4 w-4 mr-2 text-iqblue" />
+                <Link to="/auth/login" className="text-gray-300 hover:text-iqblue transition-colors">Login to Dashboard</Link>
+              </li>
               <li>
                 <Link to="/terms" className="text-gray-300 hover:text-iqblue transition-colors">Terms of Service</Link>
               </li>
               <li>
                 <Link to="/privacy" className="text-gray-300 hover:text-iqblue transition-colors">Privacy Policy</Link>
-              </li>
-              <li>
-                <Link to="/cookies" className="text-gray-300 hover:text-iqblue transition-colors">Cookie Policy</Link>
-              </li>
-              <li>
-                <Link to="/compliance" className="text-gray-300 hover:text-iqblue transition-colors">Compliance</Link>
               </li>
             </ul>
           </div>

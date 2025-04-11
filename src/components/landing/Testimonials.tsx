@@ -48,20 +48,35 @@ const testimonials = [
     image: "https://randomuser.me/api/portraits/women/5.jpg",
     quote: "iQuest's feedback on my body language and communication style was eye-opening. I didn't realize how much these non-verbal cues impact interview success.",
     rating: 5
+  },
+  {
+    id: 6,
+    name: "David Thompson",
+    role: "Sales Manager",
+    company: "RevenuePlus",
+    image: "https://randomuser.me/api/portraits/men/8.jpg",
+    quote: "After countless failed interviews, iQuest helped me identify my weaknesses and develop strategies to overcome them. I'm now confidently leading a sales team at my new company.",
+    rating: 5
   }
 ];
 
 const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [autoplay, setAutoplay] = useState(true);
+  const [visibleTestimonials, setVisibleTestimonials] = useState(testimonials.slice(0, 4));
 
   useEffect(() => {
     let interval: number | undefined;
     
     if (autoplay) {
       interval = window.setInterval(() => {
-        setActiveIndex((current) => (current + 1) % testimonials.length);
-      }, 5000);
+        setActiveIndex((current) => {
+          const newIndex = (current + 1) % Math.ceil(testimonials.length / 4);
+          const startIdx = newIndex * 4;
+          setVisibleTestimonials(testimonials.slice(startIdx, startIdx + 4));
+          return newIndex;
+        });
+      }, 8000);
     }
     
     return () => {
@@ -73,21 +88,33 @@ const Testimonials = () => {
 
   const handleNext = () => {
     setAutoplay(false);
-    setActiveIndex((current) => (current + 1) % testimonials.length);
+    setActiveIndex((current) => {
+      const newIndex = (current + 1) % Math.ceil(testimonials.length / 4);
+      const startIdx = newIndex * 4;
+      setVisibleTestimonials(testimonials.slice(startIdx, startIdx + 4));
+      return newIndex;
+    });
   };
 
   const handlePrev = () => {
     setAutoplay(false);
-    setActiveIndex((current) => (current - 1 + testimonials.length) % testimonials.length);
+    setActiveIndex((current) => {
+      const newIndex = (current - 1 + Math.ceil(testimonials.length / 4)) % Math.ceil(testimonials.length / 4);
+      const startIdx = newIndex * 4;
+      setVisibleTestimonials(testimonials.slice(startIdx, startIdx + 4));
+      return newIndex;
+    });
   };
 
   const handleDotClick = (index: number) => {
     setAutoplay(false);
     setActiveIndex(index);
+    const startIdx = index * 4;
+    setVisibleTestimonials(testimonials.slice(startIdx, startIdx + 4));
   };
 
   return (
-    <section className="py-20 bg-white">
+    <section id="testimonials" className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Users Say</h2>
@@ -96,58 +123,51 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto relative">
-          <div className="overflow-hidden">
-            <div 
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-            >
-              {testimonials.map((testimonial) => (
-                <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
-                  <div className="testimonial-card text-center">
-                    <div className="relative inline-block mb-6">
-                      <img 
-                        src={testimonial.image} 
-                        alt={testimonial.name} 
-                        className="w-20 h-20 rounded-full object-cover mx-auto"
-                      />
-                      <div className="absolute bottom-0 right-0 bg-iqblue text-white rounded-full w-8 h-8 flex items-center justify-center border-2 border-white">
-                        <Star className="w-4 h-4 fill-current" />
-                      </div>
-                    </div>
-                    
-                    <div className="flex justify-center mb-4">
-                      {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          className={`w-5 h-5 ${i < testimonial.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
-                        />
-                      ))}
-                    </div>
-                    
-                    <blockquote className="text-lg italic text-iqdark-500 mb-6">
-                      "{testimonial.quote}"
-                    </blockquote>
-                    
-                    <div>
-                      <h4 className="font-semibold text-lg">{testimonial.name}</h4>
-                      <p className="text-iqdark-500">{testimonial.role}, {testimonial.company}</p>
-                    </div>
+        <div className="relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {visibleTestimonials.map((testimonial) => (
+              <div key={testimonial.id} className="testimonial-card">
+                <div className="relative inline-block mb-6">
+                  <img 
+                    src={testimonial.image} 
+                    alt={testimonial.name} 
+                    className="w-16 h-16 rounded-full object-cover mx-auto"
+                  />
+                  <div className="absolute bottom-0 right-0 bg-iqblue text-white rounded-full w-6 h-6 flex items-center justify-center border-2 border-white">
+                    <Star className="w-3 h-3 fill-current" />
                   </div>
                 </div>
-              ))}
-            </div>
+                
+                <div className="flex justify-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      className={`w-4 h-4 ${i < testimonial.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
+                    />
+                  ))}
+                </div>
+                
+                <blockquote className="text-sm italic text-iqdark-500 mb-6 min-h-[100px]">
+                  "{testimonial.quote}"
+                </blockquote>
+                
+                <div className="text-center">
+                  <h4 className="font-semibold">{testimonial.name}</h4>
+                  <p className="text-sm text-iqdark-500">{testimonial.role}, {testimonial.company}</p>
+                </div>
+              </div>
+            ))}
           </div>
           
           <div className="flex justify-center mt-8 space-x-2">
-            {testimonials.map((_, index) => (
+            {[...Array(Math.ceil(testimonials.length / 4))].map((_, index) => (
               <button
                 key={index}
                 onClick={() => handleDotClick(index)}
                 className={`w-3 h-3 rounded-full transition-colors ${
                   index === activeIndex ? 'bg-iqblue' : 'bg-gray-300'
                 }`}
-                aria-label={`Go to testimonial ${index + 1}`}
+                aria-label={`Go to testimonial set ${index + 1}`}
               />
             ))}
           </div>
@@ -156,8 +176,8 @@ const Testimonials = () => {
             variant="outline"
             size="icon"
             onClick={handlePrev}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white border border-gray-200 shadow-md rounded-full w-10 h-10 flex items-center justify-center"
-            aria-label="Previous testimonial"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 md:-translate-x-8 bg-white border border-gray-200 shadow-md rounded-full w-10 h-10 flex items-center justify-center"
+            aria-label="Previous testimonials"
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
@@ -166,8 +186,8 @@ const Testimonials = () => {
             variant="outline"
             size="icon"
             onClick={handleNext}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white border border-gray-200 shadow-md rounded-full w-10 h-10 flex items-center justify-center"
-            aria-label="Next testimonial"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 md:translate-x-8 bg-white border border-gray-200 shadow-md rounded-full w-10 h-10 flex items-center justify-center"
+            aria-label="Next testimonials"
           >
             <ArrowRight className="h-5 w-5" />
           </Button>

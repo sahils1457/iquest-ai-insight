@@ -11,6 +11,8 @@ import SignupPage from "./pages/auth/SignupPage";
 import CandidateDashboard from "./pages/dashboard/candidate/CandidateDashboard";
 import CorporateDashboard from "./pages/dashboard/corporate/CorporateDashboard";
 import NotFound from "./pages/NotFound";
+import FeaturesPage from "./pages/features/FeaturesPage";
+import PracticePage from "./pages/practice/PracticePage";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +24,9 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/features" element={<FeaturesPage />} />
+          <Route path="/practice" element={<PracticePage />} />
+          <Route path="/pricing" element={<LandingPage />} />
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/auth/signup" element={<SignupPage />} />
           <Route path="/dashboard/candidate/*" element={<CandidateDashboard />} />

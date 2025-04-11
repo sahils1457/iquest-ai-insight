@@ -38,7 +38,7 @@ const CTASection = () => {
               </Link>
             </Button>
             <Button variant="outline" className="border-white text-white hover:bg-white/10 text-lg px-8 py-6 rounded-lg transition-all flex items-center justify-center" asChild>
-              <Link to="/pricing">
+              <Link to="/#pricing">
                 View Pricing
               </Link>
             </Button>
