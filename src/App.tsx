@@ -1,18 +1,10 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import LandingPage from "./pages/landing/LandingPage";
-import LoginPage from "./pages/auth/LoginPage";
-import SignupPage from "./pages/auth/SignupPage";
-import CandidateDashboard from "./pages/dashboard/candidate/CandidateDashboard";
-import CorporateDashboard from "./pages/dashboard/corporate/CorporateDashboard";
+import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import FeaturesPage from "./pages/features/FeaturesPage";
-import PracticePage from "./pages/practice/PracticePage";
 
 const queryClient = new QueryClient();
 
@@ -23,14 +15,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/features" element={<FeaturesPage />} />
-          <Route path="/practice" element={<PracticePage />} />
-          <Route path="/pricing" element={<LandingPage />} />
-          <Route path="/auth/login" element={<LoginPage />} />
-          <Route path="/auth/signup" element={<SignupPage />} />
-          <Route path="/dashboard/candidate/*" element={<CandidateDashboard />} />
-          <Route path="/dashboard/corporate/*" element={<CorporateDashboard />} />
+          <Route path="/" element={<Index />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
