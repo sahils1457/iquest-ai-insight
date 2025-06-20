@@ -3,8 +3,27 @@ import { Helmet } from "react-helmet";
 import { Button } from "@/components/ui/button";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { useToast } from "@/hooks/use-toast";
 
 const Practice = () => {
+  const { toast } = useToast();
+
+  const handleOneWayInterview = () => {
+    toast({
+      title: "One-Way Interview",
+      description: "Starting one-way interview session...",
+    });
+    console.log("One-way interview clicked");
+  };
+
+  const handleLiveInterview = () => {
+    toast({
+      title: "Live AI Interview",
+      description: "Connecting to AI interviewer...",
+    });
+    console.log("Live interview clicked");
+  };
+
   return (
     <>
       <Helmet>
@@ -25,7 +44,7 @@ const Practice = () => {
                 <p className="text-gray-600 mb-8">
                   Record your responses to pre-selected questions and receive AI feedback.
                 </p>
-                <Button>Start One-Way Interview</Button>
+                <Button onClick={handleOneWayInterview}>Start One-Way Interview</Button>
               </div>
               
               <div className="border rounded-lg p-8 text-center">
@@ -33,7 +52,7 @@ const Practice = () => {
                 <p className="text-gray-600 mb-8">
                   Interact with our AI interviewer in a realistic conversation.
                 </p>
-                <Button>Start Live Interview</Button>
+                <Button onClick={handleLiveInterview}>Start Live Interview</Button>
               </div>
             </div>
           </div>
